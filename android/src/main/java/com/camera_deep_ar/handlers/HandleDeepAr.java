@@ -67,7 +67,8 @@ public class HandleDeepAr {
 
     File videoFile;
 
-    public HandleDeepAr(CameraDeepArView pluginView, Context context, Activity activity, String licenceKey, FrameLayout frameView) {
+    public HandleDeepAr(CameraDeepArView pluginView, Context context, Activity activity, String licenceKey,
+            FrameLayout frameView) {
         this.pluginView = pluginView;
         this.context = context;
         this.activity = activity;
@@ -83,12 +84,12 @@ public class HandleDeepAr {
     }
 
     public void setupImage() {
-        imageGrabber= new ImageGrabber();
+        imageGrabber = new ImageGrabber();
         imageGrabber.setContext(new ContextWrapper(context));
         imageGrabber.setFrameReceiver(deepAR);
-//        SystemClock.sleep(500);
-//        imageGrabber.loadDefaultBitmap();
-//        getImageView().setImageBitmap(imageGrabber.lastImage);
+        // SystemClock.sleep(500);
+        // imageGrabber.loadDefaultBitmap();
+        // getImageView().setImageBitmap(imageGrabber.lastImage);
     }
 
     public void setupCamera() {
@@ -121,21 +122,22 @@ public class HandleDeepAr {
             }
         });
 
-//        imgSurface.setOnTouchListener((v, event) -> {
-//        ((SurfaceView) getViewAtTag(TAG_CAMERA)).setOnTouchListener((v, event) -> {
-//            // Get the pointer ID
-//            Camera.Parameters params = cameraGrabber.getCamera().getParameters();
-//            int action = event.getAction();
-//            if (event.getPointerCount() > 1) {
-//
-//            } else {
-//                // handle single touch events
-//                if (action == MotionEvent.ACTION_UP) {
-//                    CameraUtils.handleFocus(event,cameraGrabber, ((SurfaceView) getViewAtTag(TAG_CAMERA)));
-//                }
-//            }
-//            return true;
-//        });
+        // imgSurface.setOnTouchListener((v, event) -> {
+        // ((SurfaceView) getViewAtTag(TAG_CAMERA)).setOnTouchListener((v, event) -> {
+        // // Get the pointer ID
+        // Camera.Parameters params = cameraGrabber.getCamera().getParameters();
+        // int action = event.getAction();
+        // if (event.getPointerCount() > 1) {
+        //
+        // } else {
+        // // handle single touch events
+        // if (action == MotionEvent.ACTION_UP) {
+        // CameraUtils.handleFocus(event,cameraGrabber, ((SurfaceView)
+        // getViewAtTag(TAG_CAMERA)));
+        // }
+        // }
+        // return true;
+        // });
     }
 
     private void setOrientation(int orientation) {
@@ -172,12 +174,10 @@ public class HandleDeepAr {
                     orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                     break;
                 case Surface.ROTATION_180:
-                    orientation =
-                            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
                     break;
                 case Surface.ROTATION_270:
-                    orientation =
-                            ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                     break;
                 default:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -195,12 +195,10 @@ public class HandleDeepAr {
                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     break;
                 case Surface.ROTATION_180:
-                    orientation =
-                            ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                     break;
                 case Surface.ROTATION_270:
-                    orientation =
-                            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
                     break;
                 default:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
@@ -211,12 +209,10 @@ public class HandleDeepAr {
         return orientation;
     }
 
-
-
-
     public void changeParameterTexture(String gameObject, String component, String parameter, String image) {
         try {
-            Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(image)); //, options  ////R.drawable.texture
+            Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(image)); // , options
+                                                                                         // ////R.drawable.texture
             deepAR.changeParameterTexture(gameObject, component, parameter, bitmap);
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,11 +221,12 @@ public class HandleDeepAr {
 
     public void changeImage(String filePath) {
         try {
-            if(null==imageGrabber)setupImage();
+            if (null == imageGrabber)
+                setupImage();
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
             handler.post(() -> {
                 imageGrabber.loadBitmapFromGallery(bitmap);
-//                imageGrabber.refreshBitmap();
+                // imageGrabber.refreshBitmap();
             });
 
         } catch (Exception e) {
@@ -242,10 +239,9 @@ public class HandleDeepAr {
         deepAR.changeParameterFloat(changeParameter, component, parameter, floatParam);
     }
 
-
     public void dispose() {
-//        disposed = true;
-//        methodChannel.setMethodCallHandler(null);
+        // disposed = true;
+        // methodChannel.setMethodCallHandler(null);
         deepAR.setAREventListener(null);
         deepAR.release();
         deepAR = null;
@@ -256,14 +252,14 @@ public class HandleDeepAr {
             if (pathJava.contains("none")) {
                 deepAR.switchEffect(mode, (String) null);
             } else {
-                //deepAR.switchEffect(mode, pathJava.contains("none")?null:pathJava);
+                // deepAR.switchEffect(mode, pathJava.contains("none")?null:pathJava);
                 try (FileInputStream inputStream = new FileInputStream(pathJava)) {
                     deepAR.switchEffect(mode, inputStream);
                 } catch (NullPointerException | IOException e) {
                     Log.e(TAG, "Could not change mode", e);
                     e.printStackTrace();
                 }
-//        if(displayMode==TAG_IMAGE) imageGrabber.refreshBitmap();
+                // if(displayMode==TAG_IMAGE) imageGrabber.refreshBitmap();
             }
 
         });
@@ -291,7 +287,8 @@ public class HandleDeepAr {
 
     public void startVideoRecording() {
         CharSequence now = DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date());
-        videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_" + now + ".mp4");
+        videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_"
+                + now + ".mp4");
         deepAR.startVideoRecording(videoFile.getPath());
     }
 
@@ -301,21 +298,20 @@ public class HandleDeepAr {
 
     public void setDisplayMode(int mode) {
         this.displayMode = mode;
-//        setViewVisibility(mode);
+        // setViewVisibility(mode);
 
-        
         handler.post(() -> {
             deepAR.changeLiveMode(mode == 0);
-            deepAR.setOffscreenRendering(width,height);
-            if (mode == 0 ) {
+            deepAR.setOffscreenRendering(width, height);
+            if (mode == 0) {
                 getCameraView().setVisibility(View.VISIBLE);
                 getImageView().setVisibility(View.GONE);
                 getCameraView().getHolder().addCallback(new HandleDeepArSurface(this));
                 getCameraView().setOnClickListener(view -> onClick());
                 getCameraView().setFocusable(true);
                 getCameraView().setFocusableInTouchMode(true);
-//                imageGrabber=null;
-                setupCamera();  
+                // imageGrabber=null;
+                setupCamera();
             }
             if (mode == 1) {
                 getCameraView().getHolder().removeCallback(new HandleDeepArSurface(this));
@@ -324,7 +320,7 @@ public class HandleDeepAr {
                 getCameraView().setVisibility(View.GONE);
                 getImageView().setVisibility(View.VISIBLE);
                 setupImage();
-                
+
             }
         });
         Log.d(TAG, "DisplayMode " + (mode == 0 ? "Camera!" : "Image!"));
@@ -357,14 +353,14 @@ public class HandleDeepAr {
         handler.post(() -> {
             CharSequence now = DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date());
             try {
-                File imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/DeepAR_" + now + ".jpg");
+                File imageFile = new File(context.getCacheDir() + "/DeepAR_" + now + ".jpg");
                 FileOutputStream outputStream = new FileOutputStream(imageFile);
                 int quality = 100;
                 bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
                 outputStream.flush();
                 outputStream.close();
-                MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, null);
-                //Toast.makeText(context, "Screenshot saved", Toast.LENGTH_SHORT).show();
+                MediaScannerConnection.scanFile(context, new String[] { imageFile.toString() }, null, null);
+                // Toast.makeText(context, "Screenshot saved", Toast.LENGTH_SHORT).show();
                 Map<String, Object> argument = new HashMap<>();
                 argument.put("path", imageFile.toString());
                 pluginView.sendResponse("onSnapPhotoCompleted", argument);
@@ -377,35 +373,35 @@ public class HandleDeepAr {
 
     public void setImageFrame(Image image) {
         handler.post(() -> {
-           try{
-               Log.d("Frame", "Load Image from Assets Task, obj: ");
-//
-//               ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-//               byte[] bytes = new byte[buffer.remaining()];
-//               buffer.get(bytes);
-//               Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length,null);
-               
-               final Image.Plane[] planes = image.getPlanes();
-               Log.d("Frame", "Load Image from Assets Task, obj: " + planes.length);
-               final Buffer buffer = planes[0].getBuffer().rewind();
-               int pixelStride = planes[0].getPixelStride();
-               int rowStride = planes[0].getRowStride();
-               int rowPadding = rowStride - pixelStride * width;
-               Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
-               bitmap.copyPixelsFromBuffer(buffer);
+            try {
+                Log.d("Frame", "Load Image from Assets Task, obj: ");
+                //
+                // ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                // byte[] bytes = new byte[buffer.remaining()];
+                // buffer.get(bytes);
+                // Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length,null);
 
-               Log.d("Frame", "Upto here" + buffer.toString());
-               getImageView().setImageBitmap(bitmap);
-               
-           }catch (Exception e){
-               Log.e(TAG,"FrameError",e);
-           }
+                final Image.Plane[] planes = image.getPlanes();
+                Log.d("Frame", "Load Image from Assets Task, obj: " + planes.length);
+                final Buffer buffer = planes[0].getBuffer().rewind();
+                int pixelStride = planes[0].getPixelStride();
+                int rowStride = planes[0].getRowStride();
+                int rowPadding = rowStride - pixelStride * width;
+                Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
+                bitmap.copyPixelsFromBuffer(buffer);
+
+                Log.d("Frame", "Upto here" + buffer.toString());
+                getImageView().setImageBitmap(bitmap);
+
+            } catch (Exception e) {
+                Log.e(TAG, "FrameError", e);
+            }
         });
     }
 
-
     public void onPause() {
-        if (null != deepAR) deepAR.setPaused(true);
+        if (null != deepAR)
+            deepAR.setPaused(true);
         if (null != cameraGrabber) {
             cameraGrabber.stopPreview();
             cameraGrabber.releaseCamera();
@@ -414,7 +410,8 @@ public class HandleDeepAr {
     }
 
     public void onResume() {
-        if (null != deepAR) deepAR.setPaused(false);
+        if (null != deepAR)
+            deepAR.setPaused(false);
         init();
         Log.d(TAG, "onResume");
     }
@@ -427,10 +424,10 @@ public class HandleDeepAr {
     public void init() {
 
         handler.post(() -> {
-//             setupCamera();
-//             setupImage();
-//            if (displayMode == TAG_CAMERA) setupCamera();
-//            if (displayMode == TAG_IMAGE) setupImage();
+            // setupCamera();
+            // setupImage();
+            // if (displayMode == TAG_CAMERA) setupCamera();
+            // if (displayMode == TAG_IMAGE) setupImage();
         });
         Log.d(TAG, "init");
     }
@@ -438,15 +435,13 @@ public class HandleDeepAr {
     public View getViewAtIndex(int tag) {
         return frameView.getChildAt(tag);
     }
-    
-    
-    ImageView getImageView(){
-        return  (ImageView) getViewAtIndex(TAG_IMAGE);
+
+    ImageView getImageView() {
+        return (ImageView) getViewAtIndex(TAG_IMAGE);
     }
 
-    
-    SurfaceView getCameraView(){
-        return  (SurfaceView) getViewAtIndex(TAG_CAMERA);
+    SurfaceView getCameraView() {
+        return (SurfaceView) getViewAtIndex(TAG_CAMERA);
     }
 
 }
