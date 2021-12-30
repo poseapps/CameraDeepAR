@@ -659,7 +659,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate, Flu
         UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
         let imageView = UIImageView(image: screenshot)
         if let data = screenshot.pngData() {
-            let filename = getDocumentsDirectory().appendingPathComponent("\(Date().timeIntervalSinceReferenceDate).png")
+            let filename = getCaches
+            Directory().appendingPathComponent("\(Date().timeIntervalSinceReferenceDate).png")
             try? data.write(to: filename)
             var dict: [String: String] = [String:String]()
             dict["path"] = filename.absoluteString.replacingOccurrences(of: "file://", with: "")
@@ -684,8 +685,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate, Flu
         //        }
     }
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    func getCaches
+    Directory() -> URL {
+        let paths = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
         return paths[0]
     }
     
